@@ -9,35 +9,44 @@ for(let i = 0; i < 12; i++) {
 class Card extends React.Component {
     constructor(props) {
         super(props);
+        this.brightness = Math.round(Math.max(...props.color) / 2.55);
+        this.color = [];
+        for(let i in props.color) {
+            this.color[i] = Math.round(props.color[i] + ((props.color[i] / this.brightness) * (100 - this.brightness)));
+        }
         this.state = {
             color: props.color
         }
-        this.fillColor = {
-            bacgroundColor: this.toHex(this.state.color)
-        }
+        console.log(this.brightness)
+        console.log(this.props.color)
+        console.log(this.color)
     }
-
+    
     plus = e => {
         e.preventDefault();
-        if(Math.max(...this.state.color) < 255) {
+        if(this.brightness < 100) {
+            this.brightness++;
+            console.log(this.brightness)
             let color = [];
-            for(let i in this.state.color) {
-                color[i] = this.state.color[i] + 1;
+            for(let i in this.color) {
+                color[i] = Math.round(this.color[i] * (this.brightness / 100));
             }
+            console.log(color)
             this.setState({ color: color });
-            console.log(this.state.color)
         }
     }
 
     minus = e => {
         e.preventDefault();
-        if(Math.min(...this.state.color) > 0) {
+        if(this.brightness > 0) {
+            this.brightness--;
+            console.log(this.brightness)
             let color = [];
-            for(let i in this.state.color) {
-                color[i] = this.state.color[i] - 1;
+            for(let i in this.color) {
+                color[i] = Math.round(this.color[i] * (this.brightness / 100));
             }
+            console.log(color)
             this.setState({ color: color });
-            console.log(this.state.color)
         }
     }
 
@@ -78,8 +87,8 @@ class Desk extends React.Component {
     render() {
         return (
             <div className="desk">
-                {randomColors.map(card => (
-                    <Card color={card.color}/>
+                {randomColors.map((card, index) => (
+                    <Card key={index} color={card.color}/>
                 ))}
             </div>
         );

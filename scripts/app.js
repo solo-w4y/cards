@@ -26,25 +26,29 @@ var Card = function (_React$Component) {
 
         _this.plus = function (e) {
             e.preventDefault();
-            if (Math.max.apply(Math, _toConsumableArray(_this.state.color)) < 255) {
+            if (_this.brightness < 100) {
+                _this.brightness++;
+                console.log(_this.brightness);
                 var color = [];
-                for (var _i in _this.state.color) {
-                    color[_i] = _this.state.color[_i] + 1;
+                for (var _i in _this.color) {
+                    color[_i] = Math.round(_this.color[_i] * (_this.brightness / 100));
                 }
+                console.log(color);
                 _this.setState({ color: color });
-                console.log(_this.state.color);
             }
         };
 
         _this.minus = function (e) {
             e.preventDefault();
-            if (Math.min.apply(Math, _toConsumableArray(_this.state.color)) > 0) {
+            if (_this.brightness > 0) {
+                _this.brightness--;
+                console.log(_this.brightness);
                 var color = [];
-                for (var _i2 in _this.state.color) {
-                    color[_i2] = _this.state.color[_i2] - 1;
+                for (var _i2 in _this.color) {
+                    color[_i2] = Math.round(_this.color[_i2] * (_this.brightness / 100));
                 }
+                console.log(color);
                 _this.setState({ color: color });
-                console.log(_this.state.color);
             }
         };
 
@@ -60,12 +64,17 @@ var Card = function (_React$Component) {
             return colorHex.toUpperCase();
         };
 
+        _this.brightness = Math.round(Math.max.apply(Math, _toConsumableArray(props.color)) / 2.55);
+        _this.color = [];
+        for (var _i4 in props.color) {
+            _this.color[_i4] = Math.round(props.color[_i4] + props.color[_i4] / _this.brightness * (100 - _this.brightness));
+        }
         _this.state = {
             color: props.color
         };
-        _this.fillColor = {
-            bacgroundColor: _this.toHex(_this.state.color)
-        };
+        console.log(_this.brightness);
+        console.log(_this.props.color);
+        console.log(_this.color);
         return _this;
     }
 
@@ -126,8 +135,8 @@ var Desk = function (_React$Component2) {
             return React.createElement(
                 "div",
                 { className: "desk" },
-                randomColors.map(function (card) {
-                    return React.createElement(Card, { color: card.color });
+                randomColors.map(function (card, index) {
+                    return React.createElement(Card, { key: index, color: card.color });
                 })
             );
         }
