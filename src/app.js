@@ -9,11 +9,12 @@ for(let i = 0; i < 12; i++) {
 class Card extends React.Component {
     constructor(props) {
         super(props);
-        this.brightness = Math.round(Math.max(...props.color) / 2.55);
+        this.brightness = Math.max(...props.color) / 2.55;
         this.color = [];
         for(let i in props.color) {
-            this.color[i] = Math.round(props.color[i] + ((props.color[i] / this.brightness) * (100 - this.brightness)));
+            this.color[i] = (props.color[i] / this.brightness) * 100;
         }
+        this.brightness = Math.round(this.brightness);
         this.state = {
             color: props.color
         }
@@ -29,7 +30,7 @@ class Card extends React.Component {
             console.log(this.brightness)
             let color = [];
             for(let i in this.color) {
-                color[i] = Math.round(this.color[i] * (this.brightness / 100));
+                color[i] = Math.round((this.brightness / 100) * this.color[i]);
             }
             console.log(color)
             this.setState({ color: color });
@@ -43,7 +44,7 @@ class Card extends React.Component {
             console.log(this.brightness)
             let color = [];
             for(let i in this.color) {
-                color[i] = Math.round(this.color[i] * (this.brightness / 100));
+                color[i] = Math.round((this.brightness / 100) * this.color[i]);
             }
             console.log(color)
             this.setState({ color: color });

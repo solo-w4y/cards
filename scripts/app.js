@@ -31,7 +31,7 @@ var Card = function (_React$Component) {
                 console.log(_this.brightness);
                 var color = [];
                 for (var _i in _this.color) {
-                    color[_i] = Math.round(_this.color[_i] * (_this.brightness / 100));
+                    color[_i] = Math.round(_this.brightness / 100 * _this.color[_i]);
                 }
                 console.log(color);
                 _this.setState({ color: color });
@@ -45,7 +45,7 @@ var Card = function (_React$Component) {
                 console.log(_this.brightness);
                 var color = [];
                 for (var _i2 in _this.color) {
-                    color[_i2] = Math.round(_this.color[_i2] * (_this.brightness / 100));
+                    color[_i2] = Math.round(_this.brightness / 100 * _this.color[_i2]);
                 }
                 console.log(color);
                 _this.setState({ color: color });
@@ -64,11 +64,12 @@ var Card = function (_React$Component) {
             return colorHex.toUpperCase();
         };
 
-        _this.brightness = Math.round(Math.max.apply(Math, _toConsumableArray(props.color)) / 2.55);
+        _this.brightness = Math.max.apply(Math, _toConsumableArray(props.color)) / 2.55;
         _this.color = [];
         for (var _i4 in props.color) {
-            _this.color[_i4] = Math.round(props.color[_i4] + props.color[_i4] / _this.brightness * (100 - _this.brightness));
+            _this.color[_i4] = props.color[_i4] / _this.brightness * 100;
         }
+        _this.brightness = Math.round(_this.brightness);
         _this.state = {
             color: props.color
         };
