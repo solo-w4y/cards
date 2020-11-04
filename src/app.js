@@ -21,7 +21,7 @@ class Card extends React.Component {
         console.log(this.props.color)
         console.log(this.color)
     }
-    
+
     plus = e => {
         e.preventDefault();
         if(this.brightness < 100) {
